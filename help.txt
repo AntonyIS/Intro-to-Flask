@@ -1,0 +1,2 @@
+pip install flask # installing flask into our virtualenv
+python app.py #running the server
