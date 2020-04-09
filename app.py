@@ -60,22 +60,37 @@ def get_user(user_id):
 # Update route
 @app.route('/users/update/<int:user_id>',methods= ['POST', 'GET'] )
 def update_user(user_id):
+    # get user
+    user = {}
+    for user in users:  # loop through all users
+        if user['id'] == user_id:  # get a user with user_id
+            user=user
+    # check method
     if request.method == 'POST':
-        update_user = {}
-        for user in users:  # loop through all users
-            if user['id'] == user_id:  # get a user with user_id
-                # changing the value
-                update_user = {
-                    "name" : request.form['user_name'],
-                    "language" : request.form['user_language'],
-                }
-                # update the data
-                user.update(update_user)
-                return render_template("update_user.html", user=user)
+
+            # changing the value
+        update_user = {
+            "name" : request.form['user_name'],
+            "language" : request.form['user_language'],
+        }
+        # update the data
+        user.update(update_user)
+        return render_template("update_user.html", user=user)
     else:
-        print("GET POST METHOD")
+
+        return render_template("update_user.html", user=user)
 
 
+# Delete
+@app.route('/users/delete/<int:user_id>', methods=['POST', 'GET'])
+def delete_user(user_id):
+    if request.method == 'GET':
+        i = 0
+        for user in users:
+            if user['id'] == user_id:
+                users.pop(i)
+                return render_template('index.html')
+            i +=1
 
 
 
