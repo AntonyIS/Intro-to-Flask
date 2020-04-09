@@ -13,7 +13,10 @@ app = Flask(__name__)
 
 # request (client:browser)
 # response ()
-
+# C -Create
+# R - Read
+# U - Update
+# D - Delete
 users = [
     {'id':1,'name': 'Salma','language': 'javascript'},
     {'id':2,'name': 'Matthew','language': 'java'},
@@ -21,16 +24,16 @@ users = [
     {'id':4,'name': 'Lewis','language': 'Python'}
 ]
 
-
+# Reading(getting data about all users)
 @app.route('/') #http://127.0.0.1:2000; request
 def index():
     return render_template("index.html", watu=users)
 
 
-@app.route('/greetings/<name>') #request "http://127.0.0.1:2000/greetings/james"
-# <name> is a varible that will store whatever name you put after: http://127.0.0.1:2000/greetings
-def greetings(name):
-    return render_template("greetings.html")
+# @app.route('/greetings/<name>') #request "http://127.0.0.1:2000/greetings/james"
+# # <name> is a varible that will store whatever name you put after: http://127.0.0.1:2000/greetings
+# def greetings(name):
+#     return render_template("greetings.html")
 
 #
 #
@@ -39,6 +42,8 @@ def greetings(name):
 #     # response must be: String, tuple,Response instance
 #     return "{}".format(user_id)
 
+
+# Reading(getting data about a single user using their id(user_id))
 @app.route('/users/<int:user_id>')
 def get_user(user_id):
     for user in users:#loop through all the users in our list
@@ -49,6 +54,18 @@ def get_user(user_id):
         # if user is not found
         else:
             return "User not found"
+
+
+
+# Update route
+@app.route('/users/update/<int:user_id>')
+def update_user(user_id):
+    for user in users:#loop through all users
+        if user['id']  == user_id: #get a user with user_id
+            return render_template("update_user.html", user=user)
+
+
+
 
 # 200: everything is ok
 # 201: data created successfuly

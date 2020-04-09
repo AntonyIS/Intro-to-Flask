@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update user</title>
+</head>
+<body>
+<h1>Update user here</h1>
+<h3>{{user['name']}}</h3>
+
+<form action="/users/update/{{user['id']}}" method="post">
+    <label for="">Name</label>
+    <input type="text" name="user_name" value="{{user['name']}}">
+    <br>
+    <label for="">Language</label>
+    <input type="text" name="user_language" value="{{user['language']}}">
+</form>
+</body>
+</html>
