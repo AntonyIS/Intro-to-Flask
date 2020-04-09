@@ -1,5 +1,5 @@
 # import flask into our main file(app.py)
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 # flask: module install in the virtualenv
 # Flask : is a class found in the flask module
 
@@ -58,11 +58,23 @@ def get_user(user_id):
 
 
 # Update route
-@app.route('/users/update/<int:user_id>')
+@app.route('/users/update/<int:user_id>',methods= ['POST', 'GET'] )
 def update_user(user_id):
-    for user in users:#loop through all users
-        if user['id']  == user_id: #get a user with user_id
-            return render_template("update_user.html", user=user)
+    if request.method == 'POST':
+        update_user = {}
+        for user in users:  # loop through all users
+            if user['id'] == user_id:  # get a user with user_id
+                # changing the value
+                update_user = {
+                    "name" : request.form['user_name'],
+                    "language" : request.form['user_language'],
+                }
+                # update the data
+                user.update(update_user)
+                return render_template("update_user.html", user=user)
+    else:
+        print("GET POST METHOD")
+
 
 
 
