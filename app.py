@@ -1,10 +1,31 @@
 # import flask into our main file(app.py)
 from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
+import os # to help use find the location of out database
+
+
+####################Database Configuration here################################
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+class Config(object):
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, "projectonedb.db")#linux
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:////temp/projectonedb.db'         #windows
+    # SQLALCHEMY_DATABASE_URI: defines the location of out database
+    # /home/injila-pc/PycharmProjects/Flask/PythonClass/projectone/projectonedb.db
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+####################Database Configuration here################################
 # flask: module install in the virtualenv
 # Flask : is a class found in the flask module
 
 # create a flask application: serves as a server
 app = Flask(__name__)
+app.config.from_object(Config) # make use of the setting inside the Config() class
+db = SQLAlchemy(app)
+# db: an instance of our database
+# SQLAlchemy(app) : wraps the app to use the database
+
 # app: an object from the Flask class
 # __name__ : means that when the app is running , this file(app.py) is the starting point
 
@@ -24,10 +45,24 @@ users = [
     {'id':4,'name': 'Lewis','language': 'Python'}
 ]
 
+#####################Database tables here #################################
+class Users(db.Model):
+    # columns
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    language = db.Column(db.String(255))
+
+# To Interact with the database and table using the terminal
+# db.create_all(): create table
+# db.drop_all(): Delete tables
+
+#####################Database tables here #################################
+
 # Reading(getting data about all users)
 @app.route('/') #http://127.0.0.1:2000; request
 def index():
-    return render_template("index.html", watu=users)
+
+    return render_template("index.html")
 
 
 # @app.route('/greetings/<name>') #request "http://127.0.0.1:2000/greetings/james"
@@ -44,6 +79,27 @@ def index():
 
 
 # Reading(getting data about a single user using their id(user_id))
+@app.route('/users/add', methods = ['GET', 'POST'])
+def add_user():
+    if request.method == 'POST':# sending from the FE
+        # receive/grab data
+        name = request.form.get('jina')
+        programming_language = request.form.get('coding_language')
+
+        # Store data into db:
+        # create a user instance
+        new_user = Users(name=name, language=programming_language)
+        # add user to Users table
+        db.session.add(new_user)
+        # save user into the database
+        db.session.commit()
+        return render_template("index.html")
+    else:
+        return render_template('add_user.html')
+
+
+
+
 @app.route('/users/<int:user_id>')
 def get_user(user_id):
     for user in users:#loop through all the users in our list
