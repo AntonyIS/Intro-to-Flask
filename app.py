@@ -7,13 +7,12 @@ import os # to help use find the location of out database
 ####################Database Configuration here################################
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-class Config(object):
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, "projectonedb.db")#linux
-    # SQLALCHEMY_DATABASE_URI = 'sqlite:////temp/projectonedb.db'         #windows
-    # SQLALCHEMY_DATABASE_URI: defines the location of out database
-    # /home/injila-pc/PycharmProjects/Flask/PythonClass/projectone/projectonedb.db
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
+# class Config(object):
+#     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, "projectonedb.db")#linux
+#     # SQLALCHEMY_DATABASE_URI = 'sqlite:////temp/projectonedb.db'         #windows
+#     # SQLALCHEMY_DATABASE_URI: defines the location of out database
+#     # /home/injila-pc/PycharmProjects/Flask/PythonClass/projectone/projectonedb.db
+#     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 ####################Database Configuration here################################
 # flask: module install in the virtualenv
@@ -21,8 +20,13 @@ class Config(object):
 
 # create a flask application: serves as a server
 app = Flask(__name__)
-app.config.from_object(Config) # make use of the setting inside the Config() class
+# app.config.from_object(Config) # make use of the setting inside the Config() class
 db = SQLAlchemy(app)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'projectonedb')#linux
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////temp/projectonedb.db' # windows
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 # db: an instance of our database
 # SQLAlchemy(app) : wraps the app to use the database
 
@@ -46,11 +50,13 @@ users = [
 ]
 
 #####################Database tables here #################################
-class Users(db.Model):
+
+class User(db.Model):
     # columns
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255))
-    language = db.Column(db.String(255))
+    username = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+    password= db.Column(db.String(255))
 
 # To Interact with the database and table using the terminal
 # db.create_all(): create table
