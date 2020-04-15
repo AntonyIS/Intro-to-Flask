@@ -23,7 +23,7 @@ app = Flask(__name__)
 # app.config.from_object(Config) # make use of the setting inside the Config() class
 db = SQLAlchemy(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'projectonedb')#linux
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'projectonedb.db')#linux
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////temp/projectonedb.db' # windows
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -67,8 +67,14 @@ class User(db.Model):
 # Reading(getting data about all users)
 @app.route('/') #http://127.0.0.1:2000; request
 def index():
-    users = Users.query.all()
+    users = User.query.all()
     return render_template("index.html", users=users)
+
+
+@app.route('/users/<int:user_id>')
+def get_user(user_id):
+    found_user = User.query.get(user_id)
+    return render_template("get_user.html", user=found_user)
 
 
 # @app.route('/greetings/<name>') #request "http://127.0.0.1:2000/greetings/james"
@@ -106,16 +112,6 @@ def add_user():
 
 
 
-@app.route('/users/<int:user_id>')
-def get_user(user_id):
-    for user in users:#loop through all the users in our list
-        # user: single dictionary in our users list
-        if user['id'] == user_id:
-            user_name = user['name']
-            return render_template("get_user.html", found_user= user_name)
-        # if user is not found
-        else:
-            return "User not found"
 
 
 

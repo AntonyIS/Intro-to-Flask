@@ -6,5 +6,18 @@
 </head>
 <body>
     <h1>welcome to developer section</h1>
+
+    {% if users %}
+        {% for user in users %}
+            <p>ID : {{user.id}}</p>
+            <p>Names : {{user.username}}</p>
+            <p>Email : {{user.email}}</p>
+            <p>Password : {{user.password}}</p>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>No users available</p>
+    {% endif %}
+
 </body>
 </html>

@@ -40,5 +40,7 @@
           to filter a single user bases on another field(name):
             user1 = User.query.filter_by(name="Tony").first()
 
-
+<!--    to show data from python: jinja templating engine-->
+<!--to add login(if...for..) in the front end use the jinja templating engine-->
+<!--to a varible using jinja use {{}}-->
 
