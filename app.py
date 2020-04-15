@@ -61,8 +61,8 @@ class Users(db.Model):
 # Reading(getting data about all users)
 @app.route('/') #http://127.0.0.1:2000; request
 def index():
-
-    return render_template("index.html")
+    users = Users.query.all()
+    return render_template("index.html", users=users)
 
 
 # @app.route('/greetings/<name>') #request "http://127.0.0.1:2000/greetings/james"

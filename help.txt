@@ -1,2 +1,44 @@
-pip install flask # installing flask into our virtualenv
-python app.py #running the server
+# pip install flask # installing flask into our virtualenv
+# python app.py #running the server
+
+1.Adding database functionality into app.py
+    1.1 install flask-sqlachemy(ORM) in the venv
+    1.2 configure it to make use of your
+        1.2.1 import SQAlchemy: from flask_sqlalchemy import SQLAlchemy
+        1.2.2 setting the location of our database:
+                app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'nameofdb')linux
+                app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////temp/projectonedb.db'  windows
+        1.2.3 Wrapp the app inro the db
+            db = SQLALchemy(app)
+            db: instance of database
+
+    1.3 Add database table using a class
+    class User(db.Model):
+        # columns
+        id = db.Column(db.Integer, primary_key=True)
+        name = db.Column(db.String(255))
+        language = db.Column(db.String(255))
+
+    1.4 Initializing your db
+    1.4.1 Use the terminal by typing >>>python
+         import db: from app(app.py) import db, User(table)
+    1.4.2: create table: db.create_all()
+    1.4.3: delete table: db.drop_all()
+
+    1.5.0 Adding data into the database
+    1.5.1 use the terminal by issue this command python >>> python
+    1.5.2 from app import User
+        user1 = User(name="Tony", language="Python")
+        add user to db table:
+        db.session.add(user1)
+        save user into the db table
+        db.session.commit()
+
+    1.6.0 Retrieving data from db table
+          all users : users = User.query.all()
+          a single user :user1 User.query.get(user_id)
+          to filter a single user bases on another field(name):
+            user1 = User.query.filter_by(name="Tony").first()
+
+
+
