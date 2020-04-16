@@ -93,21 +93,20 @@ def get_user(user_id):
 # Reading(getting data about a single user using their id(user_id))
 @app.route('/users/add', methods = ['GET', 'POST'])
 def add_user():
-    if request.method == 'POST':# sending from the FE
-        # receive/grab data
+    # check the request method
+    if request.method == 'POST':
+        # recieve data from the form
         name = request.form.get('jina')
-        programming_language = request.form.get('coding_language')
+        email = request.form.get('arafa')
+        password = request.form.get('basswad')
 
-        # Store data into db:
-        # create a user instance
-        new_user = Users(name=name, language=programming_language)
-        # add user to Users table
-        db.session.add(new_user)
-        # save user into the database
-        db.session.commit()
-        return render_template("index.html")
+        print(name, email, password)
+
     else:
-        return render_template('add_user.html')
+        return "Hello"
+
+
+
 
 
 

@@ -5,6 +5,10 @@
     <title>User page</title>
 </head>
 <body>
-    <h1>Found user is : {{user.username}}</h1>
+    {% if user %}
+        <h1>Found user is : {{user.username}}</h1>
+    {% else %}
+        <h1>No user found</h1>
+    {% endif %}
 </body>
 </html>

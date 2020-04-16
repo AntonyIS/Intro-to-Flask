@@ -6,6 +6,18 @@
 </head>
 <body>
     <h1>welcome to developer section</h1>
+    <form action="/users/add" method="post">
+        <label for="">Names </label>
+        <input type="text" name="jina" placeholder="Enter username here">
+        <br>
+        <label for="">Email </label>
+        <input type="email" name="arafa" placeholder="Enter email here">
+        <br>
+         <label for="">Password </label>
+        <input type="password" name="basswad" placeholder="Enter password here">
+        <br>
+        <input type="submit" value="Add data">
+    </form>
 
     {% if users %}
         {% for user in users %}
