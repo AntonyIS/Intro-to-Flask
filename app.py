@@ -1,5 +1,5 @@
 # import flask into our main file(app.py)
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 import os # to help use find the location of out database
 
@@ -94,24 +94,26 @@ def get_user(user_id):
 @app.route('/users/add', methods = ['GET', 'POST'])
 def add_user():
     # check the request method
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return render_template("index.html")
+    else:
+        # form = {
+        #     'jina': "Bolt",
+        #     'arafa': "bolt@gmail.com",
+        #     'basswad': "bolt4321"
+        # }
         # recieve data from the form
         name = request.form.get('jina')
         email = request.form.get('arafa')
         password = request.form.get('basswad')
 
-        print(name, email, password)
-
-    else:
-        return "Hello"
-
-
-
-
-
-
-
-
+        # store data into db table(User)
+        user_instance = User(username=name,email=email, password=password)
+        # add user into table
+        db.session.add(user_instance)
+        # save user into db table
+        db.session.commit()
+        return redirect('/')
 
 
 # Update route
